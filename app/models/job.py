@@ -14,13 +14,13 @@ class ApplicationStatus(Enum):
 
 class Job:
     
-    def __init__(self, company_name, role, location, url):
+    def __init__(self, company_name, role, location, url, status, date_added):
         self.company_name = company_name
         self.role = role              
         self.location = location
         self.url = url
-        self.status = ApplicationStatus.SAVED
-        self.date_added = datetime.now()
+        self.status = "ApplicationStatus.SAVED"
+        self.date_added = "datetime.now(timezone.utc)"
 
     @property
     def company_name(self):
@@ -42,29 +42,23 @@ class Job:
     def company_name(self, name):
         if not isinstance(name,str):
             raise TypeError("Company name must be text")
-        if name == "   ":
+        if name == "   " or if name == "":
             raise ValueError("Company name not found")
-        if name == "":
-             raise ValueError("Company name not found")
         self._company_name = name
 
     @role.setter
     def role(self, position):
         if not isinstance(position,str):
             raise TypeError("Role is not a text")
-        if position == "   ":
+        if position == "   " or if position == "":
             raise ValueError("Role does not exist")
-        if position == "":
-           raise ValueError("Role does not exist")
         self._role = position
 
     @location.setter
      def location(self, place):
         if not isinstance(place,str):
             raise TypeError("Location is not in text format")
-        if place == "    ":
-            raise ValueError("A location is not stated")
-        if place == "":
+        if place == "    " or if place == "":
             raise ValueError("A location is not stated")
         self._location = place
 
@@ -72,14 +66,14 @@ class Job:
     def url(self, link):
         if not isinstance(link,str):
             raise TypeError("Link is not in a readable format")
-        if link == "   ":
+        if link == "   " or if link == "":
             raise ValueError("Link does not exist")
-        if link == "":
-           raise ValueError("Link does not exist")
+        if not link.startswith("https://") or not link.startswith("http://"):
+            raise ValueError("Link does not start with http or https") 
         self._url = link
 
     def __str__(self):
-        return f'Job({self.company_name},{self.role},{self.location},{self.url},{self.status},{self.datetime})'
+        return f'Job({self.company_name},{self.role},{self.location},{self.url},{self.status},{self.date_added})'
 
 job = Job(
     company_name = "Lockheed Martin",

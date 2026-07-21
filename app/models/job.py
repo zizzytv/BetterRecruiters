@@ -2,45 +2,71 @@ import datetime
 from datetime import timezone 
 from enum import Enum
 
-date_added = datetime.now()
-
 class ApplicationStatus(Enum):
-    Applied = 1
-    Saved = 2
-    Assessment = 3    
-    Interview = 4
-    Rejected = 5
-    Offer = 6
-    Withdrawn = 7
-    Accepted = 8 
-
-status = ApplicationStatus()
+    APPLIED = 1
+    SAVED = 2
+    ASSESSMENT = 3    
+    INTERVIEW = 4
+    REJECTED = 5
+    OFFER = 6
+    WITHDRAWN = 7
+    ACCEPTED = 8 
 
 class Job:
-    def __init__(self, company_name, role, location, salary, job_description, url, status, recruiter_email, recruiter_name, source):
+    
+    def __init__(self, company_name, role, location, url, status, date_added):
         self.company_name = company_name
         self.role = role              
         self.location = location
-        self.salary = salary
-        self.job_description = job_description
         self.url = url
-        self.status = status
-        self.recruiter_email = recruiter_email
-        self.recruiter_name = recruiter_name
-        self.source = source
-    
+        self.status = ApplicationStatus.SAVED
+        self.date_added = datetime.now()
+
     @property
     def company_name(self):
         return self._company_name 
     
+    @property
+    def role(self):
+        return self._role
+
+    @property 
+    def location(self):
+        return self._location
+
+    @property 
+    def url(self):
+        return self._url
+  
     @company_name.setter
     def company_name(self, name):
-        if not isinstance(value, (int, string)):
+        if not isinstance(name,str):
             raise TypeError("Company name must be text")
-    if value = "":
-        raise ValueError("Company name not found")
-    self._company_name = value
+        if name == "":
+             raise ValueError("Company name not found")
+        self._company_name = name
 
+    @role.setter
+    def role(self, position):
+        if not isinstance(position,str):
+            raise TypeError("Role is not a text")
+        if position == "":
+           raise ValueError("Role does not exist")
+        self._role = position
+
+    @location.setter
+     def location(self, place):
+        if not isinstance(place,str):
+            raise TypeError("Location is not in text format")
+        if place == "":
+           raise ValueError("A location is not stated")
+        self._location = place
+
+    @url.setter
+    ## Mainly validates if the link is actually openable
+
+    def __str__(self):
+        return f'Job({self.company_name},{self.role},{self.location},{self.url},{self.status},{self.datetime})'
 
 job = Job(
     company_name = "Lockheed Martin",

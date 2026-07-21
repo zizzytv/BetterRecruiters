@@ -14,13 +14,13 @@ class ApplicationStatus(Enum):
 
 class Job:
     
-    def __init__(self, company_name, role, location, url, status, date_added):
+    def __init__(self, company_name, role, location, url, status=None, date_added=None):
         self.company_name = company_name
         self.role = role              
         self.location = location
         self.url = url
-        self.status = ApplicationStatus.SAVED
-        self.date_added = datetime.now(timezone.utc)
+        self.status = status if status is not None else ApplicationStatus.SAVED
+        self.date_added = date_added if date_added is not None else datetime.datetime.now(timezone.utc)
 
     @property
     def company_name(self):
@@ -37,6 +37,14 @@ class Job:
     @property 
     def url(self):
         return self._url
+    
+    @property 
+    def status(self):
+        return self._status
+
+    @property 
+    def date_added(self):
+        return self._date_added
   
     @company_name.setter
     def company_name(self, name):
@@ -72,6 +80,19 @@ class Job:
             raise ValueError("Link does not start with http or https") 
         self._url = link
 
+    @status.setter
+    def status(self, application_status):
+        if not isinstance(application_status, ApplicationStatus):
+            raise TypeError("Status must be an ApplicationStatus enum")
+        self._status = application_status
+
+    @date_added.setter
+    def date_added(self, date):
+        if not isinstance(date, datetime.datetime):
+            raise TypeError("Date must be a datetime object")
+        self._date_added = date
+
+
     def __str__(self):
         return f'Job({self.company_name},{self.role},{self.location},{self.url},{self.status},{self.date_added})'
 
@@ -80,8 +101,6 @@ job = Job(
     role = "Mechanical Design Engineer", 
     location = "London",
     url = "https://www.gradcracker.com/search/mechanical-manufacturing/engineering-graduate-jobs",
-    status = ApplicationStatus.APPLIED,
-    date_added = datetime.now(timezone.utc)
 )
 
 print(job) 

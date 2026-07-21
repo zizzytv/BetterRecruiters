@@ -19,8 +19,8 @@ class Job:
         self.role = role              
         self.location = location
         self.url = url
-        self.status = "ApplicationStatus.SAVED"
-        self.date_added = "datetime.now(timezone.utc)"
+        self.status = ApplicationStatus.SAVED
+        self.date_added = datetime.now(timezone.utc)
 
     @property
     def company_name(self):
@@ -42,7 +42,7 @@ class Job:
     def company_name(self, name):
         if not isinstance(name,str):
             raise TypeError("Company name must be text")
-        if name == "   " or if name == "":
+        if name == "   " or name == "":
             raise ValueError("Company name not found")
         self._company_name = name
 
@@ -50,15 +50,15 @@ class Job:
     def role(self, position):
         if not isinstance(position,str):
             raise TypeError("Role is not a text")
-        if position == "   " or if position == "":
+        if position == "   " or position == "":
             raise ValueError("Role does not exist")
         self._role = position
 
     @location.setter
-     def location(self, place):
+    def location(self, place):
         if not isinstance(place,str):
             raise TypeError("Location is not in text format")
-        if place == "    " or if place == "":
+        if place == "    " or place == "":
             raise ValueError("A location is not stated")
         self._location = place
 
@@ -66,9 +66,9 @@ class Job:
     def url(self, link):
         if not isinstance(link,str):
             raise TypeError("Link is not in a readable format")
-        if link == "   " or if link == "":
+        if link == "   " or link == "":
             raise ValueError("Link does not exist")
-        if not link.startswith("https://") or not link.startswith("http://"):
+        if not link.startswith("https://") and not link.startswith("http://"):
             raise ValueError("Link does not start with http or https") 
         self._url = link
 

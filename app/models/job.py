@@ -14,7 +14,7 @@ class ApplicationStatus(Enum):
 
 class Job:
     
-    def __init__(self, company_name, role, location, url, status, date_added):
+    def __init__(self, company_name, role, location, url):
         self.company_name = company_name
         self.role = role              
         self.location = location
@@ -42,6 +42,8 @@ class Job:
     def company_name(self, name):
         if not isinstance(name,str):
             raise TypeError("Company name must be text")
+        if name == "   ":
+            raise ValueError("Company name not found")
         if name == "":
              raise ValueError("Company name not found")
         self._company_name = name
@@ -50,6 +52,8 @@ class Job:
     def role(self, position):
         if not isinstance(position,str):
             raise TypeError("Role is not a text")
+        if position == "   ":
+            raise ValueError("Role does not exist")
         if position == "":
            raise ValueError("Role does not exist")
         self._role = position
@@ -58,12 +62,21 @@ class Job:
      def location(self, place):
         if not isinstance(place,str):
             raise TypeError("Location is not in text format")
+        if place == "    ":
+            raise ValueError("A location is not stated")
         if place == "":
-           raise ValueError("A location is not stated")
+            raise ValueError("A location is not stated")
         self._location = place
 
     @url.setter
-    ## Mainly validates if the link is actually openable
+    def url(self, link):
+        if not isinstance(link,str):
+            raise TypeError("Link is not in a readable format")
+        if link == "   ":
+            raise ValueError("Link does not exist")
+        if link == "":
+           raise ValueError("Link does not exist")
+        self._url = link
 
     def __str__(self):
         return f'Job({self.company_name},{self.role},{self.location},{self.url},{self.status},{self.datetime})'
@@ -72,12 +85,9 @@ job = Job(
     company_name = "Lockheed Martin",
     role = "Mechanical Design Engineer", 
     location = "London",
-    salary = "£34,500",
-    job_description = "Place Holder Text",
     url = "https://www.gradcracker.com/search/mechanical-manufacturing/engineering-graduate-jobs",
     status = ApplicationStatus.APPLIED,
-    date_added = datetime.now(timezone.utc),
-    recruiter_email = "john.doe@martin.co.uk",
-    recruiter_name = "John Doe",
-    source = "Gradcracker"
+    date_added = datetime.now(timezone.utc)
 )
+
+print(job) 
